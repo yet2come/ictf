@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ICTF</title>
+  <link rel="icon" href="https://cdn.peraichi.com/userData/5dd2bc6d-7020-48ba-88ca-1b930a0000c5/img/5ddd6cdab6ec3/original.png">
+  <style>
+    /* Reset & Base */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: "Hiragino Kaku Gothic Pro", "ヒラギノ角ゴ Pro W3", Meiryo, "メイリオ", Osaka, "MS PGothic", Arial, Helvetica, sans-serif;
+      color: #05161a;
+      background: #fff;
+      line-height: 1.8;
+      font-size: 15px;
+    }
+    a { color: inherit; text-decoration: none; }
+    ul { list-style: none; }
+    img { max-width: 100%; height: auto; }
+
+    /* Header - Fixed Navigation */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: #fff;
+      border-bottom: 1px solid #eee;
+      padding: 12px 0;
+    }
+    .header .wrapper {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .header .logo img {
+      height: 50px;
+    }
+    .header nav ul {
+      display: flex;
+      gap: 24px;
+    }
+    .header nav a {
+      font-size: 18px;
+      color: #333;
+      letter-spacing: 0.05em;
+    }
+    .header nav a:hover {
+      opacity: 0.7;
+    }
+
+    /* Wrapper */
+    .wrapper {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Section: Heading Arrow */
+    .section-heading-arrow {
+      margin-top: 80px;
+      background: #28c3d4;
+      padding: 28px 0;
+      text-align: center;
+      position: relative;
+    }
+    .section-heading-arrow::after {
+      content: '';
+      position: absolute;
+      bottom: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-left: 20px solid transparent;
+      border-right: 20px solid transparent;
+      border-top: 20px solid #28c3d4;
+    }
+    .section-heading-arrow h2 {
+      color: #fff;
+      font-size: 28px;
+      font-weight: 400;
+      line-height: 1.6;
+    }
+
+    /* Section: Hero */
+    .section-hero {
+      background: url('https://cdn.peraichi.com/userData/5dd2bc6d-7020-48ba-88ca-1b930a0000c5/img/5ddd6bc132e64/original.png') center center / cover no-repeat;
+      position: relative;
+      padding: 80px 0 60px;
+    }
+    .section-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+    }
+    .section-hero .wrapper {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      gap: 40px;
+      align-items: center;
+    }
+    .section-hero .hero-content {
+      flex: 1;
+      color: #fff;
+      text-align: left;
+    }
+    .section-hero h2 {
+      font-size: 28px;
+      font-weight: 400;
+      line-height: 1.6;
+      margin-bottom: 20px;
+      color: #fff;
+    }
+    .section-hero .hero-meta {
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+    .section-hero .hero-note {
+      font-size: 13px;
+      line-height: 1.8;
+      margin-bottom: 30px;
+      opacity: 0.9;
+    }
+    .section-hero .hero-logo {
+      flex-shrink: 0;
+      width: 220px;
+    }
+    .section-hero .hero-logo img {
+      width: 100%;
+      opacity: 0.3;
+    }
+    .btn-facebook {
+      display: inline-block;
+      background: #3199df;
+      color: #fff;
+      padding: 13px 29px;
+      border-radius: 0;
+      font-size: 16px;
+      font-weight: 400;
+      letter-spacing: 0.05em;
+      transition: opacity 0.3s;
+    }
+    .btn-facebook:hover {
+      opacity: 0.8;
+    }
+
+    /* Section: Topics */
+    .section-topics {
+      padding: 60px 0;
+    }
+    .topics-box {
+      max-width: 700px;
+      margin: 0 auto;
+      border: 3px solid #28c3d4;
+      padding: 20px 20px 1px;
+    }
+    .topics-box h2 {
+      font-size: 28px;
+      font-weight: 400;
+      text-align: center;
+      margin-bottom: 16px;
+      color: #05161a;
+    }
+    .topics-box .heading-border {
+      border-bottom: 2px solid #28c3d4;
+      margin-bottom: 20px;
+      padding-bottom: 0;
+    }
+    .topics-box ul {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .topics-box li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+    .topics-box li .check {
+      flex-shrink: 0;
+      width: 25px;
+      height: 25px;
+      margin-top: 2px;
+    }
+    .topics-box li .check img {
+      width: 25px;
+      height: 25px;
+    }
+
+    /* Section: Venue Access */
+    .section-venue {
+      padding: 60px 0;
+    }
+    .section-venue h2 {
+      font-size: 28px;
+      font-weight: 400;
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .venue-content {
+      display: flex;
+      gap: 40px;
+      align-items: flex-start;
+    }
+    .venue-map {
+      flex: 0 0 380px;
+    }
+    .venue-map iframe {
+      width: 100%;
+      height: 300px;
+      border: 0;
+    }
+    .venue-info {
+      flex: 1;
+    }
+    .venue-info .venue-name {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 16px;
+    }
+    .venue-info p {
+      font-size: 14px;
+      line-height: 2;
+      margin-bottom: 8px;
+    }
+
+    /* Section: About ICTF */
+    .section-about {
+      padding: 60px 0;
+    }
+    .section-about .heading-bar {
+      background: #28c3d4;
+      padding: 16px 24px;
+      margin-bottom: 30px;
+    }
+    .section-about .heading-bar h2 {
+      color: #fff;
+      font-size: 24px;
+      font-weight: 400;
+    }
+    .about-content {
+      display: flex;
+      gap: 30px;
+      align-items: flex-start;
+    }
+    .about-logo {
+      flex-shrink: 0;
+      width: 240px;
+    }
+    .about-logo img {
+      width: 100%;
+    }
+    .about-text {
+      flex: 1;
+      font-size: 14px;
+      line-height: 2;
+    }
+    .about-text a {
+      color: #e00;
+    }
+    .about-credit {
+      text-align: right;
+      margin-top: 24px;
+      padding: 16px 0;
+      border-top: 1px solid #eee;
+      font-size: 14px;
+    }
+    .about-credit a {
+      color: #e00;
+    }
+
+    /* Section: Sticker */
+    .section-sticker {
+      padding: 60px 0;
+    }
+    .section-sticker .heading-bar {
+      background: #28c3d4;
+      padding: 16px 24px;
+      margin-bottom: 30px;
+    }
+    .section-sticker .heading-bar h2 {
+      color: #fff;
+      font-size: 24px;
+      font-weight: 400;
+    }
+    .sticker-content {
+      display: flex;
+      gap: 30px;
+      align-items: flex-start;
+    }
+    .sticker-images {
+      flex-shrink: 0;
+      width: 200px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+    .sticker-images img {
+      width: 160px;
+    }
+    .sticker-text {
+      flex: 1;
+      font-size: 14px;
+      line-height: 2;
+    }
+    .sticker-text a {
+      color: #e00;
+    }
+    .sticker-amazon {
+      text-align: center;
+      padding: 20px 0;
+      margin-top: 20px;
+      border-top: 1px solid #eee;
+    }
+    .sticker-amazon a {
+      color: #55f;
+      font-size: 14px;
+    }
+
+    /* Footer */
+    .footer {
+      padding: 40px 0;
+      text-align: center;
+      font-size: 13px;
+      color: #666;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .section-hero .wrapper {
+        flex-direction: column;
+      }
+      .section-hero .hero-logo {
+        width: 150px;
+      }
+      .venue-content {
+        flex-direction: column;
+      }
+      .venue-map {
+        flex: auto;
+        width: 100%;
+      }
+      .about-content {
+        flex-direction: column;
+        align-items: center;
+      }
+      .about-logo {
+        width: 180px;
+      }
+      .sticker-content {
+        flex-direction: column;
+        align-items: center;
+      }
+      .topics-box {
+        padding: 30px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="wrapper">
+      <a href="#" class="logo">
+        <img src="https://cdn.peraichi.com/userData/5dd2bc6d-7020-48ba-88ca-1b930a0000c5/img/5ddd73bdd839d/original.png" alt="ictf.jp">
+      </a>
+      <nav>
+        <ul>
+          <li><a href="#bof-info">BoF案内</a></li>
+          <li><a href="#venue">BoF会場</a></li>
+          <li><a href="#about">ICTFについて</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Heading Arrow -->
+  <section class="section-heading-arrow" id="bof-info">
+    <h2>Internet Week 2019<br>BoF開催のお知らせ</h2>
+  </section>
+
+  <!-- Hero Section -->
+  <section class="section-hero">
+    <div class="wrapper">
+      <div class="hero-content">
+        <h2>
+          <span>Internet Week 2019</span><br>
+          <span>インターネットにおける自由とデジタル主権について語るBoF</span>
+        </h2>
+        <p class="hero-meta">11/28(木) 19:00～20:25 @浅草橋ヒューリックホール (BoF入場無料)</p>
+        <p class="hero-note">＊本BoFは「チャタムハウスルール」の下で開催を予定しています。BoF参加者はそこで得た情報を自由に使うことができますが「誰の発言か」また「誰が参加していたか」については他言無用に願います。</p>
+        <a href="https://www.facebook.com/groups/ictf.jp/" class="btn-facebook" target="_blank" rel="noopener">Facebook グループへ</a>
+      </div>
+      <div class="hero-logo">
+        <img src="https://cdn.peraichi.com/userData/5dd2bc6d-7020-48ba-88ca-1b930a0000c5/img/5ddd6cdab6ec3/original.png" alt="ICTF">
+      </div>
+    </div>
+  </section>
+
+  <!-- Topics Section -->
+  <section class="section-topics">
+    <div class="wrapper">
+      <div class="topics-box">
+        <div class="heading-border">
+          <h2>BoFで話される...かもしれないトピック</h2>
+        </div>
+        <ul>
+          <li>
+            <span class="check"><img src="https://cdn.peraichi.com/template_root/v2/s3bucket/images/default/ic_check.svg" alt="✓"></span>
+            <span>ウェブの誕生とベルリンの壁の崩壊(1989)</span>
+          </li>
+          <li>
+            <span class="check"><img src="https://cdn.peraichi.com/template_root/v2/s3bucket/images/default/ic_check.svg" alt="✓"></span>
+            <span>世界人権宣言(1948) と 図書館の自由に関する宣言(1954)</span>
+          </li>
+          <li>
+            <span class="check"><img src="https://cdn.peraichi.com/template_root/v2/s3bucket/images/default/ic_check.svg" alt="✓"></span>
+            <span>スノーデン事件とIETF88＠Vancouver (2013)</span>
+          </li>
+          <li>
+            <span class="check"><img src="https://cdn.peraichi.com/template_root/v2/s3bucket/images/default/ic_check.svg" alt="✓"></span>
+            <span>政府によるバックドア、中間者攻撃、大規模監視</span>
+          </li>
+          <li>
+            <span class="check"><img src="https://cdn.peraichi.com/template_root/v2/s3bucket/images/default/ic_check.svg" alt="✓"></span>
+            <span>入国審査とSNS＆デバイスチェック</span>
+          </li>
+          <li>
+            <span class="check"><img src="https://cdn.peraichi.com/template_root/v2/s3bucket/images/default/ic_check.svg" alt="✓"></span>
+            <span>デジタル・レーニン主義</span>
+          </li>
+          <li>
+            <span class="check"><img src="https://cdn.peraichi.com/template_root/v2/s3bucket/images/default/ic_check.svg" alt="✓"></span>
+            <span>ティム バーナーズ＝リーによる "Contract for the Web" の提案（New!）</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Venue Access Section -->
+  <section class="section-venue" id="venue">
+    <div class="wrapper">
+      <h2>BoF会場アクセス</h2>
+      <div class="venue-content">
+        <div class="venue-map">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3240.4!2d139.785!3d35.697!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60188ec1a4a7ebcb%3A0x3a71e5bb3e8d3f50!2z44OS44Ol44O844Oq44OD44Kv5rWF6I2J5qmL44OT44Or!5e0!3m2!1sja!2sjp!4v1"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
+        <div class="venue-info">
+          <p class="venue-name">浅草橋ヒューリックホール</p>
+          <p>〒111-0053 東京都台東区浅草橋1-22-16<br>ヒューリック浅草橋ビル</p>
+          <p>○JR総武線「浅草橋駅（西口）」より徒歩1分<br>○都営浅草線「浅草橋駅（A3出口）」より徒歩2分</p>
+          <p>○ヒューリック浅草橋ビルには一般駐車場はございませんので、お車でご来場の方は近隣駐車場をご利用下さい。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About ICTF Section -->
+  <section class="section-about" id="about">
+    <div class="wrapper">
+      <div class="heading-bar">
+        <h2>ICTFについて</h2>
+      </div>
+      <div class="about-content">
+        <div class="about-logo">
+          <img src="https://cdn.peraichi.com/userData/5dd2bc6d-7020-48ba-88ca-1b930a0000c5/img/5ddd6cdab6ec3/original.png" alt="ICTF">
+        </div>
+        <div class="about-text">
+          <p>今年(2019年)は1989年の「ティム・バーナーズ＝リーによるウェブの発明」と「ベルリンの壁の崩壊」から丁度30年目にあたります。この節目の年に（表立ったところではあまり議論されていないような...）インターネット周辺と国の制度や方針について、あれやこれやを語れる仲間を見つけるのに相応しい場所かもしれない… そんな期待からInternetWeek2019のBoF開催を申し込むことにしました。BoFの開催申込書には「組織名」と「参照すべき情報(もしあればURL等で)」を記入する欄がありまして...（中略）「ICTF.JP」という、なんとなくそれっぽいドメインが登録できてしまったので、締め切りギリギリでBoF主催の組織名は「ICTF」ということになった次第です。ということで、現時点でICTFは私（秋山）一人でやっている正真正銘のアヤシイ団体です。皆様のご参加をお待ちしております。</p>
+        </div>
+      </div>
+      <div class="about-credit">
+        ICTF.JP 事務局： 秋山卓司 (<a href="https://twitter.com/yet2come" target="_blank" rel="noopener">@yet2come</a>)
+      </div>
+    </div>
+  </section>
+
+  <!-- Sticker Section -->
+  <section class="section-sticker">
+    <div class="wrapper">
+      <div class="heading-bar">
+        <h2>No Blocking Internet ステッカー</h2>
+      </div>
+      <div class="sticker-content">
+        <div class="sticker-images">
+          <img src="https://cdn.peraichi.com/userData/5dd2bc6d-7020-48ba-88ca-1b930a0000c5/img/5ddd8168cf5e1/original.png" alt="No Blocking Internet ステッカー">
+        </div>
+        <div class="sticker-text">
+          <p>BoF会場にて「No Blocking Internet」ステッカーを無料配布する予定です。</p>
+          <p>ご希望の方はお気軽に秋山(<a href="https://twitter.com/yet2come" target="_blank" rel="noopener">@yet2come</a>) にお声がけください。<br>#もし持っていくのを忘れたらごめんなさい...</p>
+        </div>
+      </div>
+      <div class="sticker-amazon">
+        <a href="https://www.amazon.co.jp/dp/B07SG4M672/" target="_blank" rel="noopener">No Blocking Internet ステッカーは Amazon.co.jp でもお買い求めいただけます。</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>Copyright 2019 ICTF.JP</p>
+  </footer>
+</body>
+</html>
